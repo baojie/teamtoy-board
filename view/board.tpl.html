@@ -18,22 +18,22 @@
 		<a class="side_link">
 			<?php
 				if('all'==$board['visible']){
-					echo '所有人可见';
+					echo 'Visible to all';
 				}elseif('group'==$board['visible']){
-					 echo '分组可见('.$board['visible_value'].')';
+					 echo 'Visible to group('.$board['visible_value'].')';
 					 }else{
-					 echo '仅自己可见';
+					 echo 'Visible to self';
 					 }
 					 ?>
 		</a>
-		<a class="board_top_ctrl" title="修改看板" href="javascript:show_float_box('修改看板','?c=plugin&a=board_update&id=<?php echo $id?>');">&nbsp;<i class="icon-edit"></i></a>
-		<a class="board_top_ctrl" title="删除看板" onclick="return confirm('是否确认删除看板?')" href="?c=plugin&a=board_delete&id=<?php echo $id?>">&nbsp<i class="icon-trash"></i></a>
+		<a class="board_top_ctrl" title="Update" href="javascript:show_float_box('Update kanban','?c=plugin&a=board_update&id=<?php echo $id?>');">&nbsp;<i class="icon-edit"></i></a>
+		<a class="board_top_ctrl" title="Delete" onclick="return confirm('Are you sure to delete?')" href="?c=plugin&a=board_delete&id=<?php echo $id?>">&nbsp<i class="icon-trash"></i></a>
 	</div><!--/card-title-->
 
 </div><!--/span7-->
 
 <div class="span5" id="side_board">
-	<div id="board_create"><a class="side_link" href="javascript:show_float_box('创建列表','?c=plugin&a=board_list_add&board_id=<?php echo $id?>')">添加新列表</a>  <a href="javascript:show_float_box('创建新看板','?c=plugin&a=board_create')" class="side_link">创建新看板</a> </div>
+	<div id="board_create"><a class="side_link" href="javascript:show_float_box('Add list','?c=plugin&a=board_list_add&board_id=<?php echo $id?>')">Add list</a>  <a href="javascript:show_float_box('Create new kanban','?c=plugin&a=board_create')" class="side_link">Create new kanban</a> </div>
 </div><!--/span5-->
 </div><!--/row-fluid-->
 <div id="board_main" class="row">
@@ -44,7 +44,7 @@
 	 ?>
 	<div lid="<?php echo $list['id']?>" todos="<?php echo $list['todos']?>" class="list list_drag span">
 		<div class="list_head clearfix" id="list_head_<?php echo $list['id']?>">
-			<h5 title="单击标题进行编辑" onclick="list_edit(<?php echo $list['id']?>)" id="list_title_<?php echo $list['id']?>" class="pull-left"><?php echo $list['name']?></h5><a title="删除" onclick="return confirm('是否确认删除列表')" class="list_remove" href="?c=plugin&a=board_list_delete&id=<?php echo $list['id']?>"><i class="icon-remove pull-right"></i></a>
+			<h5 title="Click title to edit" onclick="list_edit(<?php echo $list['id']?>)" id="list_title_<?php echo $list['id']?>" class="pull-left"><?php echo $list['name']?></h5><a title="Delete" onclick="return confirm('Are you sure to delete list')" class="list_remove" href="?c=plugin&a=board_list_delete&id=<?php echo $list['id']?>"><i class="icon-remove pull-right"></i></a>
 		</div>
 		<div class="list_edit_head" id="list_edit_head_<?php echo $list['id']?>">
 			<form id="todo_edit_form" method="post" action="?c=plugin&a=board_list_update" class="form-inline">
@@ -52,12 +52,12 @@
 					<input type="text" autofocus="autofocus" class="list_edit_input" maxlength="10" name="name" value="<?php echo $list['name']?>">
 					<input type="hidden" name="id" value="<?php echo $list['id']?>" />
   				<div class="btn-group left_square">
-				<button class="btn" type="submit">保存</button>
+				<button class="btn" type="submit">Save</button>
     			<button data-toggle="dropdown" class="btn dropdown-toggle">
       				<span class="caret"></span>
     			</button>
     			<ul class="dropdown-menu short_menu">
-    				<li><a href="javascript:list_edit_cancel(<?php echo $list['id']?>)" tabindex="-1">取消</a></li>
+    				<li><a href="javascript:list_edit_cancel(<?php echo $list['id']?>)" tabindex="-1">Cancel</a></li>
     			</ul>
   				</div>
 				</div>
@@ -74,24 +74,24 @@
 						echo ' card_doing';
 				
 				?>" onclick="board_show_todo_detail_center(<?php echo $card['id']?>);" tid="<?php echo $card['id']?>">
-				<i class="todo_status icon-chevron-down" title="切换TODO状态"></i> 
+				<i class="todo_status icon-chevron-down" title="Switch TODO status"></i> 
 				<span><?php echo $card['content']?></span>
 			</div>
 			<?php
 				endforeach;
 			?>	
 		</div>
-		<div class="add_card">追加TODO：<a class="side_link" href="javascript:todo_batch_add(<?php echo $id?>,<?php echo $list['id']?>,'<?php echo $board['visible']?>');">创建</a> 或 <a class="side_link" href="javascript:show_float_box('导入已有TODO','?c=plugin&a=board_todo_import&board_id=<?php echo $id?>&list_id=<?php echo $list['id']?>');">导入</a></div>
+		<div class="add_card">Add TODO：<a class="side_link" href="javascript:todo_batch_add(<?php echo $id?>,<?php echo $list['id']?>,'<?php echo $board['visible']?>');">Create</a> or <a class="side_link" href="javascript:show_float_box('Import existing TODO','?c=plugin&a=board_todo_import&board_id=<?php echo $id?>&list_id=<?php echo $list['id']?>');">Import</a></div>
 	</div><!--/list-->
 	<?php 
 	endforeach;
 	else:
 	?>
-	<div id="create_list">您还没有添加列表，请 [ <a href="javascript:show_float_box('创建列表','?c=plugin&a=board_list_add&board_id=<?php echo $id?>')">添加新列表</a> ]</div>
+	<div id="create_list">You have not list, please [ <a href="javascript:show_float_box('Create list','?c=plugin&a=board_list_add&board_id=<?php echo $id?>')">add list</a> ]</div>
 	<?php
 	endif;
 	?>
  </div><!--/board_wrap-->
 </div><!--/board_main-->
-<div class="fullscreen-ctrol"><a href="javascript:board_fullscreen();" class="side_link"><i class="icon-fullscreen"></i> 全屏</a></div>
-<div id="board_small_size" class="hide"><a href="javascript:board_small_size();" class="side_link"><i class="icon-resize-small"></i> 退出全屏</a></div>
+<div class="fullscreen-ctrol"><a href="javascript:board_fullscreen();" class="side_link"><i class="icon-fullscreen"></i>Full Screen</a></div>
+<div id="board_small_size" class="hide"><a href="javascript:board_small_size();" class="side_link"><i class="icon-resize-small"></i>Exist Full Screen</a></div>

@@ -14,7 +14,7 @@ TeamToy extenstion info block
 add_action( 'UI_NAVLIST_LAST' , 'board_icon' );
 function board_icon()
 {
-	?><li <?php if( g('c') == 'plugin' && g('a') == 'board' ): ?>class="active"<?php endif; ?>><a href="?c=plugin&a=board" title="看板" >
+	?><li <?php if( g('c') == 'plugin' && g('a') == 'board' ): ?>class="active"<?php endif; ?>><a href="?c=plugin&a=board" title="Kanban" >
 	<div><img src="plugin/board/kanban.png"/></div></a>
 	</li>
 	<?php
@@ -43,7 +43,7 @@ SQL;
 		run_sql($sql);
 		$sql=<<<SQL
 SQL;
-		run_sql("INSERT INTO `board` (`id`, `name`, `visible`, `visible_value`) VALUES (1, '团队看板', 'all', '')");
+		run_sql("INSERT INTO `board` (`id`, `name`, `visible`, `visible_value`) VALUES (1, 'Team Kanban', 'all', '')");
 		$sql=<<<SQL
 CREATE TABLE IF NOT EXISTS `board_list` (
  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -58,10 +58,10 @@ SQL;
 		run_sql($sql);
 	}
 	$data=array();
-	$data['top_title']='看板';
+	$data['top_title']='Kanban';
 	$board_data=json_decode(send_request('board_data',array(),token()),true);
 	if(0!=$board_data['err_code']){
-		$msg=6001==$board_data['err_code']?'看板不存在':'您无权限访问此看版';
+		$msg=6001==$board_data['err_code']?'kanban does not exist':'you have no access to this kanban';
 		info_page($msg);
 	}
 	$data['board']=$board_data['data'];
@@ -80,7 +80,7 @@ add_action('PLUGIN_BOARD_ADD','plugin_board_add');
 function plugin_board_add(){
 	$result=json_decode(send_request('board_add',array(),token()),true);
 	if(0!=$result['err_code']){
-		info_page('添加失败');
+		info_page('Adding failed');
 	}
 	header("location:?c=plugin&a=board&id=".$result['data']);
 }
@@ -96,7 +96,7 @@ add_action('PLUGIN_BOARD_SAVE','plugin_board_save');
 function plugin_board_save(){
 	$result=json_decode(send_request('board_update',array(),token()),true);
 	if(0!=$result.err_code){
-		info_page('修改失败');
+		info_page('Updating failed');
 	}else{
 		header("location:?c=plugin&a=board&id=".intval(v('id')));	
 	}
@@ -106,7 +106,7 @@ add_action('PLUGIN_BOARD_DELETE','plugin_board_delete');
 function plugin_board_delete(){
 	$result=json_decode(send_request('board_delete',array(),token()),true);	
 	if(0!=$result['err_code']){
-		$msg=6005==$result['err_code']?'不能删除默认看板':'删除失败';
+		$msg=6005==$result['err_code']?'Cannot delete the default kanban':'Deletion failed';
 		info_page($msg);
 	}else{
 		header('location:?c=plugin&a=board&id=1');
@@ -122,7 +122,7 @@ add_action('PLUGIN_BOARD_LIST_INSERT','plugin_board_list_insert');
 function plugin_board_list_insert(){
 	$result=json_decode(send_request('board_list_add',array(),token()),true);
 	if(0!=$result['err_code']){
-		$msg=6007==$result['err_code']?'你没有权限添加这个看板的列表':'列表添加失败';
+		$msg=6007==$result['err_code']?'You have no right for adding list to this kanban':'Adding list failed';
 		info_page($msg);
 	}else{
 		header('location:?c=plugin&a=board&id='.intval(v('board_id')));
@@ -133,7 +133,7 @@ add_action('PLUGIN_BOARD_LIST_DELETE','plugin_board_list_delete');
 function plugin_board_list_delete(){
 	$result=json_decode(send_request('board_list_delete',array(),token()),true);
 	if(0!=$result['err_code']){
-		info_page('删除失败');
+		info_page('Deletion failed');
 	}else{
 		header('location:'.$_SERVER['HTTP_REFERER']);
 	}	
@@ -143,7 +143,7 @@ add_action('PLUGIN_BOARD_LIST_UPDATE','plugin_board_list_update');
 function plugin_board_list_update(){
 	$result=json_decode(send_request('board_list_update',array(),token()),true);
 	if(0!=$result['err_code']){
-		info_page('更新失败');
+		info_page('Update failed');
 	}else{
 		header('location:'.$_SERVER['HTTP_REFERER']);
 	}
